@@ -23,4 +23,13 @@ public class Click extends AbstractEntity {
     private Long id;
     private LocalDate date;
     private Long value;
+    private String categoryName;
+
+    public static Click of(LocalDate localDate, String categoryName, Long value) {
+        Click click = new Click();
+        click.date = localDate;
+        click.value = value;
+        click.categoryName = categoryName;
+        return click;
+    }
 }

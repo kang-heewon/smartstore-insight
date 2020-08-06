@@ -2,7 +2,7 @@ spring:
   datasource:
     main:
       type: com.zaxxer.hikari.HikariDataSource
-      jdbc-url: jdbc:mariadb://commerce-prod.cnjqhbbgkaab.ap-northeast-2.rds.amazonaws.com:3306/commerce
+      jdbc-url: jdbc:mariadb://smartstore.cwfapijmqt4o.ap-northeast-2.rds.amazonaws.com:3306/commerce
       username: admin
       password: DzWryUlpe5tAqNc0RjAs
       driver-class-name: org.mariadb.jdbc.Driver
@@ -12,9 +12,9 @@ spring:
       minimum-idle: 10
     readonly:
       type: com.zaxxer.hikari.HikariDataSource
-      jdbc-url: jdbc:mariadb://commerce-prod.cnjqhbbgkaab.ap-northeast-2.rds.amazonaws.com:3306/commerce
-      username: svc_commerce
-      password: f5T81p8AKinmPLD3
+      jdbc-url: jdbc:mariadb://smartstore.cwfapijmqt4o.ap-northeast-2.rds.amazonaws.com:3306/commerce
+      username: admin
+      password: DzWryUlpe5tAqNc0RjAs
       driver-class-name: org.mariadb.jdbc.Driver
       connectionTimeout: 10000
       validationTimeout: 1000

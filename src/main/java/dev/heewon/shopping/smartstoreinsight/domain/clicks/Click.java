@@ -2,6 +2,7 @@ package dev.heewon.shopping.smartstoreinsight.domain.clicks;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.tree.AbstractEntity;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 
 @Slf4j
 @Getter
+@Setter
 @Entity
 @ToString
 @NoArgsConstructor
@@ -31,5 +33,12 @@ public class Click extends AbstractEntity {
         click.value = value;
         click.categoryName = categoryName;
         return click;
+    }
+
+    public Click update(Click newClick) {
+        date = newClick.date;
+        value = newClick.value;
+        categoryName = newClick.categoryName;
+        return this;
     }
 }

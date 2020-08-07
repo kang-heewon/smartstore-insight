@@ -1,31 +1,22 @@
 spring:
   datasource:
-    main:
-      type: com.zaxxer.hikari.HikariDataSource
-      jdbc-url: jdbc:mariadb://smartstore.cwfapijmqt4o.ap-northeast-2.rds.amazonaws.com:3306/commerce
-      username: admin
-      password: DzWryUlpe5tAqNc0RjAs
-      driver-class-name: org.mariadb.jdbc.Driver
-      connectionTimeout: 10000
-      validationTimeout: 1000
-      maximum-pool-size: 10
-      minimum-idle: 10
-    readonly:
-      type: com.zaxxer.hikari.HikariDataSource
-      jdbc-url: jdbc:mariadb://smartstore.cwfapijmqt4o.ap-northeast-2.rds.amazonaws.com:3306/commerce
-      username: admin
-      password: DzWryUlpe5tAqNc0RjAs
-      driver-class-name: org.mariadb.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://smartstore.cwfapijmqt4o.ap-northeast-2.rds.amazonaws.com/smartstore
+    username: postgres
+    password: 0o56F8ybgeOYaBult4MP
+    driverClassName: org.postgresql.Driver
+    hikari:
       connectionTimeout: 10000
       validationTimeout: 1000
       maximum-pool-size: 10
       minimum-idle: 10
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 smartstore:
   data:

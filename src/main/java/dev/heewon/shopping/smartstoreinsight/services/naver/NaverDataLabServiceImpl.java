@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,11 +29,12 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
     public String getData(ClickDto.CreateRequest request) {
         List<NaverClickDto.Category> categoryList = makeCategoryList();
         categoryList.forEach(category -> {
+            Optional<Click> click = clickRepository.findByDateAndCategoryName(request.getTargetDate(), category.getName());
             NaverClickDto.DataLabRequest requestBody = makeResponse(request, category);
             NaverClickDto.DataLabResponse dataLabResponse = crawlData(requestBody).getBody();
             List<NaverClickDto.Result> results = dataLabResponse.getResults();
-            Click click = convert(category, dataLabResponse.getStartDate(), results.get(2));
-            clickRepository.save(click);
+            Click newClick = convert(click.orElse(new Click()), category, dataLabResponse.getStartDate(), results.get(2));
+            clickRepository.save(newClick);
         });
         return "hello";
     }
@@ -61,9 +63,12 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
         return dataLabRequest;
     }
 
-    private Click convert(NaverClickDto.Category category, LocalDate localDate, NaverClickDto.Result result) {
+    private Click convert(Click click, NaverClickDto.Category category, LocalDate localDate, NaverClickDto.Result result) {
         Long value = result.getData().get(0).getRatio();
-        return Click.of(localDate, category.getName(), value);
+        click.setDate(localDate);
+        click.setCategoryName(category.getName());
+        click.setValue(value);
+        return click;
     }
 
     private List<NaverClickDto.Category> makeCategoryList() {

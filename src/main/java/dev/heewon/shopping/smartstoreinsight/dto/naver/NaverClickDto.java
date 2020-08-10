@@ -9,6 +9,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class NaverClickDto {
+    @Getter
+    @Setter
+    @ToString
+    public static class CreateRequest {
+        private LocalDate targetDate;
+    }
 
     @Getter
     @Setter

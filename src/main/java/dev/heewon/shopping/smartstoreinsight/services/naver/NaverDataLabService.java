@@ -1,9 +1,9 @@
 package dev.heewon.shopping.smartstoreinsight.services.naver;
 
-import dev.heewon.shopping.smartstoreinsight.dto.click.ClickDto;
+import dev.heewon.shopping.smartstoreinsight.dto.naver.NaverClickDto;
 
 public interface NaverDataLabService {
 
-    String getData(ClickDto.CreateRequest request);
+    String getData(NaverClickDto.CreateRequest request);
 
 }

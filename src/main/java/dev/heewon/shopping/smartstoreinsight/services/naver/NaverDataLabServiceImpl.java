@@ -3,7 +3,6 @@ package dev.heewon.shopping.smartstoreinsight.services.naver;
 import dev.heewon.shopping.smartstoreinsight.config.NaverDataLabConfig;
 import dev.heewon.shopping.smartstoreinsight.domain.clicks.Click;
 import dev.heewon.shopping.smartstoreinsight.domain.clicks.ClickRepository;
-import dev.heewon.shopping.smartstoreinsight.dto.click.ClickDto;
 import dev.heewon.shopping.smartstoreinsight.dto.naver.NaverClickDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -26,7 +25,7 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
     private final RestTemplate restTemplate;
     private final ClickRepository clickRepository;
 
-    public String getData(ClickDto.CreateRequest request) {
+    public String getData(NaverClickDto.CreateRequest request) {
         List<NaverClickDto.Category> categoryList = makeCategoryList();
         categoryList.forEach(category -> {
             Optional<Click> click = clickRepository.findByDateAndCategoryName(request.getTargetDate(), category.getName());
@@ -51,7 +50,7 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
         return restTemplate.postForEntity(apiUrl, entity, NaverClickDto.DataLabResponse.class);
     }
 
-    private NaverClickDto.DataLabRequest makeResponse(ClickDto.CreateRequest request, NaverClickDto.Category category) {
+    private NaverClickDto.DataLabRequest makeResponse(NaverClickDto.CreateRequest request, NaverClickDto.Category category) {
         NaverClickDto.DataLabRequest dataLabRequest = new NaverClickDto.DataLabRequest();
         dataLabRequest.setStartDate(request.getTargetDate().toString());
         dataLabRequest.setEndDate(request.getTargetDate().toString());

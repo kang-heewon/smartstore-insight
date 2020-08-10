@@ -25,6 +25,11 @@ public class ClickServiceImpl implements ClickService {
     }
 
     private ClickDto.ClickInfo convertTo(Click click) {
-        return ClickDto.ClickInfo.builder().id(click.getId()).categoryName(click.getCategoryName()).date(click.getDate()).build();
+        return ClickDto.ClickInfo.builder()
+                .id(click.getId())
+                .categoryName(click.getCategoryName())
+                .date(click.getDate())
+                .value(click.getValue())
+                .build();
     }
 }

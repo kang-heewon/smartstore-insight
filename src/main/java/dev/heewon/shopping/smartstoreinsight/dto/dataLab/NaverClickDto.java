@@ -1,11 +1,11 @@
-package dev.heewon.shopping.smartstoreinsight.dto.naver;
+package dev.heewon.shopping.smartstoreinsight.dto.dataLab;
 
+import dev.heewon.shopping.smartstoreinsight.dto.category.CategoryDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 public class NaverClickDto {
@@ -14,19 +14,6 @@ public class NaverClickDto {
     @ToString
     public static class CreateRequest {
         private LocalDate targetDate;
-    }
-
-    @Getter
-    @Setter
-    @ToString
-    public static class Category {
-        private String name;
-        private List<String> param;
-
-        public Category(String name, String param) {
-            this.name = name;
-            this.param = Collections.singletonList(param);
-        }
     }
 
     @Getter
@@ -53,7 +40,7 @@ public class NaverClickDto {
         private String startDate;
         private String endDate;
         private String timeUnit;
-        private List<Category> category;
+        private List<CategoryDto.Category> category;
         private String gender;
         private String device;
         private List<String> ages;

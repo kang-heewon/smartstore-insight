@@ -34,3 +34,5 @@ smartstore:
       client-id: CBhLfVzN2Ype6luqClfq
       client-secret: h362wQE2hk
       url: https://openapi.naver.com/v1/datalab/shopping/categories
+    naver-shopping:
+      url: https://search.shopping.naver.com

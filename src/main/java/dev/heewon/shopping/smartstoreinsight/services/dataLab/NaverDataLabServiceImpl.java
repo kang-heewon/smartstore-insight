@@ -1,9 +1,10 @@
-package dev.heewon.shopping.smartstoreinsight.services.naver;
+package dev.heewon.shopping.smartstoreinsight.services.dataLab;
 
 import dev.heewon.shopping.smartstoreinsight.config.NaverDataLabConfig;
 import dev.heewon.shopping.smartstoreinsight.domain.clicks.Click;
 import dev.heewon.shopping.smartstoreinsight.domain.clicks.ClickRepository;
-import dev.heewon.shopping.smartstoreinsight.dto.naver.NaverClickDto;
+import dev.heewon.shopping.smartstoreinsight.dto.category.CategoryDto;
+import dev.heewon.shopping.smartstoreinsight.dto.dataLab.NaverClickDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +26,8 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
     private final RestTemplate restTemplate;
     private final ClickRepository clickRepository;
 
-    public String getData(NaverClickDto.CreateRequest request) {
-        List<NaverClickDto.Category> categoryList = makeCategoryList();
+    public void getData(NaverClickDto.CreateRequest request) {
+        List<CategoryDto.Category> categoryList = CategoryDto.Category.makeCategoryList();
         categoryList.forEach(category -> {
             Optional<Click> click = clickRepository.findByDateAndCategoryName(request.getTargetDate(), category.getName());
             NaverClickDto.DataLabRequest requestBody = makeResponse(request, category);
@@ -35,7 +36,6 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
             Click newClick = convert(click.orElse(new Click()), category, dataLabResponse.getStartDate(), results.get(2));
             clickRepository.save(newClick);
         });
-        return "hello";
     }
 
     private <T> ResponseEntity<NaverClickDto.DataLabResponse> crawlData(T request) {
@@ -50,19 +50,19 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
         return restTemplate.postForEntity(apiUrl, entity, NaverClickDto.DataLabResponse.class);
     }
 
-    private NaverClickDto.DataLabRequest makeResponse(NaverClickDto.CreateRequest request, NaverClickDto.Category category) {
+    private NaverClickDto.DataLabRequest makeResponse(NaverClickDto.CreateRequest request, CategoryDto.Category category) {
         NaverClickDto.DataLabRequest dataLabRequest = new NaverClickDto.DataLabRequest();
         dataLabRequest.setStartDate(request.getTargetDate().toString());
         dataLabRequest.setEndDate(request.getTargetDate().toString());
         dataLabRequest.setTimeUnit("date");
-        dataLabRequest.setCategory(Arrays.asList(new NaverClickDto.Category("패션의류", "50000000"), new NaverClickDto.Category("패션잡화", "50000001"), category));
+        dataLabRequest.setCategory(Arrays.asList(new CategoryDto.Category("패션의류", "50000000"), new CategoryDto.Category("패션잡화", "50000001"), category));
         dataLabRequest.setDevice("");
         dataLabRequest.setGender("");
         dataLabRequest.setAges(Collections.emptyList());
         return dataLabRequest;
     }
 
-    private Click convert(Click click, NaverClickDto.Category category, LocalDate localDate, NaverClickDto.Result result) {
+    private Click convert(Click click, CategoryDto.Category category, LocalDate localDate, NaverClickDto.Result result) {
         Long value = result.getData().get(0).getRatio();
         click.setDate(localDate);
         click.setCategoryName(category.getName());
@@ -70,17 +70,4 @@ public class NaverDataLabServiceImpl implements NaverDataLabService {
         return click;
     }
 
-    private List<NaverClickDto.Category> makeCategoryList() {
-        return Arrays.asList(
-                new NaverClickDto.Category("화장품/미용", "50000002"),
-                new NaverClickDto.Category("디지털/가전", "50000003"),
-                new NaverClickDto.Category("가구/인테리어", "50000004"),
-                new NaverClickDto.Category("출산/육아", "50000005"),
-                new NaverClickDto.Category("식품", "50000006"),
-                new NaverClickDto.Category("스포츠/레저", "50000007"),
-                new NaverClickDto.Category("생활/건강", "50000008"),
-                new NaverClickDto.Category("여가/생활편의", "50000009"),
-                new NaverClickDto.Category("면세점", "50000010")
-        );
-    }
 }

@@ -2,9 +2,10 @@ package dev.heewon.shopping.smartstoreinsight.controllers;
 
 import dev.heewon.shopping.smartstoreinsight.common.CommonResponse;
 import dev.heewon.shopping.smartstoreinsight.dto.click.ClickDto;
-import dev.heewon.shopping.smartstoreinsight.dto.naver.NaverClickDto;
+import dev.heewon.shopping.smartstoreinsight.dto.dataLab.NaverClickDto;
 import dev.heewon.shopping.smartstoreinsight.services.click.ClickService;
-import dev.heewon.shopping.smartstoreinsight.services.naver.NaverDataLabService;
+import dev.heewon.shopping.smartstoreinsight.services.dataLab.NaverDataLabService;
+import dev.heewon.shopping.smartstoreinsight.services.shopping.NaverShoppingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class WebRestController {
 
     private final NaverDataLabService naverDataLabService;
+    private final NaverShoppingService naverShoppingService;
     private final ClickService clickService;
 
     @GetMapping("/click/{date}")
@@ -25,8 +27,17 @@ public class WebRestController {
         return CommonResponse.success(response);
     }
 
-    @PostMapping("/crawl")
-    public String crawl(@RequestBody NaverClickDto.CreateRequest request) {
-        return naverDataLabService.getData(request);
+    @PostMapping("/crawl/click")
+    public CommonResponse crawl(@RequestBody NaverClickDto.CreateRequest request) {
+        naverDataLabService.getData(request);
+        return CommonResponse.success("success");
     }
+
+    @PostMapping("/crawl/shopping")
+    public CommonResponse crawl() {
+        naverShoppingService.getData();
+        return CommonResponse.success("success");
+    }
+
+
 }

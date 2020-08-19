@@ -4,19 +4,12 @@ files:
   - source:  /
     destination: /home/ubuntu/build/
 
-permissions:
-  - object: /
-    pattern: "**"
-    mode: 400
-    owner: ubuntu
-    group: ubuntu
-
 hooks:
   ApplicationStart:
     - location: deploy.sh
       timeout: 60
-      runas: ubuntu
+      runas: root
   ValidateService:
     - location: healthCheck.sh
       timeout: 60
-      runas: ubuntu
+      runas: root
